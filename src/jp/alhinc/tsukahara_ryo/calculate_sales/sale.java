@@ -19,6 +19,7 @@ public class sale {
 	public static void main(String[] args){
 		if(args.length != 1){
 			System.out.println("予期せぬエラーが発生しました");
+			return;
 		}
 		HashMap<String, String> branchNameMap = new HashMap<String, String>();
 		HashMap<String, Long> branchSaleMap = new HashMap<String, Long>();
@@ -92,6 +93,7 @@ public class sale {
 				}
 			}catch (IOException e) {
 				System.out.println("予期せぬエラーが発生しました");
+				return;
 			}
 		}
 		File file = new File(args[0]);
@@ -130,6 +132,7 @@ public class sale {
 				}
 				if(rcdList.size() != 3){
 					System.out.println(fileName + "のフォーマットが不正です");
+					return;
 				}
 
 
@@ -190,6 +193,7 @@ public class sale {
 		    }
 		}catch(IOException s){
 			System.out.println("予期せぬエラーが発生しました。");
+			return;
 		}finally{
 			try {
 
@@ -200,6 +204,7 @@ public class sale {
 				}
 			} catch (IOException e) {
 				System.out.println("予期せぬエラーが発生しました");
+				return;
 			}
 		}
 
