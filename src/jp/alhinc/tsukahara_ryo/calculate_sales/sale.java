@@ -24,8 +24,9 @@ public class sale {
 		HashMap<String, Long> branchSaleMap = new HashMap<String, Long>();
 		BufferedReader br = null;
 		FileReader fr = null;
+		BufferedWriter bw = null;
+		BufferedWriter combw = null;
 		try{
-
 			File file = new File(args[0],"branch.lst");
 			fr = new FileReader(file);
 			br = new BufferedReader(fr);
@@ -41,11 +42,8 @@ public class sale {
 				}
 				branchNameMap.put(items[0], items[1]);
 				branchSaleMap.put(items[0], 0L);
-
 			}
-
-
-		} catch(FileNotFoundException e){
+		}catch(FileNotFoundException e){
 			System.out.println("支店定義ファイルが存在しません");
 			return;
 		}catch(IOException e){
@@ -63,7 +61,6 @@ public class sale {
 		HashMap<String, String> commodityCodeMap = new HashMap<String, String>();
 		HashMap<String, Long> commoditySaleMap = new HashMap<String, Long>();
 		try{
-
 			File file = new File(args[0],"commodity.lst");
 			fr = new FileReader(file);
 			br = new BufferedReader(fr);
@@ -93,7 +90,7 @@ public class sale {
 				if(br != null){
 					br.close();
 				}
-			} catch (IOException e) {
+			}catch (IOException e) {
 				System.out.println("予期せぬエラーが発生しました");
 			}
 		}
@@ -122,7 +119,6 @@ public class sale {
 		}
 
 		try{
-
 			for(String fileName : list){
 				ArrayList<String> rcdList = new ArrayList<String>();
 				File rcdName = new File(args[0],fileName);
@@ -158,31 +154,27 @@ public class sale {
 				if(rcdcommodityMoney > 999999999){
 					System.out.println("合計金額が10桁を超えました");
 					return;
-					}
+				}
 				commoditySaleMap.put(rcdList.get(1),rcdcommodityMoney);
 
 			}
-				File branchOutFile = new File(args[0],"branch.out");
-				BufferedWriter bw = new BufferedWriter(new FileWriter(branchOutFile));
-				List<Map.Entry<String,Long>> entries =new ArrayList<Map.Entry<String,Long>>(branchSaleMap.entrySet());
-			    Collections.sort(entries, new Comparator<Map.Entry<String,Long>>() {
-			    	@Override
-			    	public int compare(
-			        Entry<String,Long> entry1, Entry<String,Long> entry2) {
-			    		return ((Long)entry2.getValue()).compareTo((Long)entry1.getValue());
-			    	}
-			    });
+
+			File branchOutFile = new File(args[0],"branch.out");
+			bw = new BufferedWriter(new FileWriter(branchOutFile));
+			List<Map.Entry<String,Long>> entries =new ArrayList<Map.Entry<String,Long>>(branchSaleMap.entrySet());
+		    Collections.sort(entries, new Comparator<Map.Entry<String,Long>>() {
+		    	@Override
+		    	public int compare(
+		        Entry<String,Long> entry1, Entry<String,Long> entry2) {
+		    		return ((Long)entry2.getValue()).compareTo((Long)entry1.getValue());
+		    	}
+		    });
 		    for (Entry<String,Long> s : entries) {
-	            bw.write(s.getKey() + "," + branchNameMap.get(s.getKey())+ ","+ branchSaleMap.get(s.getKey()));
-	            bw.newLine();
+		    	bw.write(s.getKey() + "," + branchNameMap.get(s.getKey())+ ","+ branchSaleMap.get(s.getKey()));
+		    	bw.newLine();
 		    }
-		    bw.close();
-
-
-
 		    File commdityOutFile = new File(args[0],"commodity.out");
-			BufferedWriter combw = new BufferedWriter(new FileWriter(commdityOutFile));
-
+			combw = new BufferedWriter(new FileWriter(commdityOutFile));
 			List<Map.Entry<String,Long>> comentries =new ArrayList<Map.Entry<String,Long>>(commoditySaleMap.entrySet());
 		    Collections.sort(comentries, new Comparator<Map.Entry<String,Long>>() {
 		    	@Override
@@ -196,13 +188,14 @@ public class sale {
 	            combw.write(s.getKey() + "," + commodityCodeMap.get(s.getKey())+ ","+ commoditySaleMap.get(s.getKey()));
 	            combw.newLine();
 		    }
-		    combw.close();
-
 		}catch(IOException s){
-				System.out.println("予期せぬエラーが発生しました。");
+			System.out.println("予期せぬエラーが発生しました。");
 		}finally{
 			try {
-				if(br != null){
+
+				if(bw != null){
+					combw.close();
+					bw.close();
 					br.close();
 				}
 			} catch (IOException e) {
