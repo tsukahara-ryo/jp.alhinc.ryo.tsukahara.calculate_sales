@@ -17,6 +17,9 @@ import java.util.Map.Entry;
 
 public class sale {
 	public static void main(String[] args){
+		if(args.length != 1){
+			System.out.println("予期せぬエラーが発生しました");
+		}
 		HashMap<String, String> branchNameMap = new HashMap<String, String>();
 		HashMap<String, Long> branchSaleMap = new HashMap<String, Long>();
 		BufferedReader br = null;
@@ -31,7 +34,7 @@ public class sale {
 				String str = s;
 				String[] items = str.split(",",-1);
 
-				if(!items[0].matches("[0-9]{3}$") && (items.length != 2)){
+				if(!items[0].matches("[0-9]{3}$") || (items.length != 2)){
 				    //System.out.print();
 					System.out.println("支店定義ファイルのフォーマットが不正です");
 				    return;
@@ -69,7 +72,7 @@ public class sale {
 				String str = s;
 				String[] items = str.split(",",-1);
 
-				if(!items[0].matches("\\w{8}$") && (items.length != 2)){
+				if(!items[0].matches("\\w{8}$") || (items.length != 2)){
 				    System.out.println("商品定義ファイルのフォーマットが不正です");
 				    return;
 				}
@@ -140,7 +143,7 @@ public class sale {
 				}
 				long rcdbranchMoney = Long.parseLong(rcdList.get(2));
 				rcdbranchMoney = branchSaleMap.get(rcdList.get(0)) + rcdbranchMoney;
-				if(rcdbranchMoney > 1000000000){
+				if(rcdbranchMoney > 999999999){
 					System.out.println("合計金額が10桁を超えました");
 					return;
 				}
@@ -152,7 +155,7 @@ public class sale {
 				}
 				long rcdcommodityMoney = Long.parseLong(rcdList.get(2));
 				rcdcommodityMoney = commoditySaleMap.get(rcdList.get(1)) + rcdcommodityMoney;
-				if(rcdcommodityMoney > 1000000000){
+				if(rcdcommodityMoney > 999999999){
 					System.out.println("合計金額が10桁を超えました");
 					return;
 					}
