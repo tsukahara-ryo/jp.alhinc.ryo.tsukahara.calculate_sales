@@ -152,7 +152,7 @@ public class sale {
 				}
 				long rcdcommodityMoney = Long.parseLong(rcdList.get(2));
 				rcdcommodityMoney = commoditySaleMap.get(rcdList.get(1)) + rcdcommodityMoney;
-				if(rcdcommodityMoney >= 999999999){
+				if(rcdcommodityMoney >= 1000000000){
 					System.out.println("合計金額が10桁を超えました");
 					return;
 					}
