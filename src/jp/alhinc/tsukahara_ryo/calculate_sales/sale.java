@@ -139,7 +139,7 @@ public class sale {
 					return;
 				}
 				if(!rcdList.get(2).matches("^\\d{1,10}$")){
-					System.out.println(fileName + "のフォーマットが不正です");
+					System.out.println("予期せぬエラーが発生しました");
 					return;
 				}
 
