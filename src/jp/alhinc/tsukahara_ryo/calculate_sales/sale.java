@@ -21,6 +21,7 @@ public class sale {
 			System.out.println("予期せぬエラーが発生しました");
 			return;
 		}
+
 		HashMap<String, String> branchNameMap = new HashMap<String, String>();
 		HashMap<String, Long> branchSaleMap = new HashMap<String, Long>();
 		BufferedReader br = null;
@@ -38,8 +39,7 @@ public class sale {
 				String[] items = str.split(",",-1);
 
 				if(!items[0].matches("[0-9]{3}$") || (items.length != 2)){
-				    //System.out.print();
-					System.out.println("支店定義ファイルのフォーマットが不正です");
+				    System.out.println("支店定義ファイルのフォーマットが不正です");
 				    return;
 				}
 				branchNameMap.put(items[0], items[1]);
@@ -80,8 +80,7 @@ public class sale {
 				commodityCodeMap.put(items[0], items[1]);
 				commoditySaleMap.put(items[0], 0l);
 
-			}br.close();
-			//System.out.println(commoditySaleMap.get("SFT00001"));
+			}
 
 		} catch(FileNotFoundException e){
 			System.out.println("商品定義ファイルが存在しません");
@@ -102,15 +101,14 @@ public class sale {
 		File file = new File(args[0]);
 		String files[] = file.list();
 		ArrayList<String> list = new ArrayList<String>();
+
 		for (String f: files){
 			File fileordr = new File(args[0], f);
 			if(f.matches("[0-9]{8}.rcd$")){
 				if(fileordr.isFile()){
 					list.add(f);
 				}
-
 			}
-
 		}
 		Collections.sort(list);
 		for(int i=1;i<list.size();i++){
@@ -126,7 +124,6 @@ public class sale {
 				return;
 			}
 		}
-
 		try{
 			for(String fileName : list){
 				ArrayList<String> rcdList = new ArrayList<String>();
@@ -183,6 +180,7 @@ public class sale {
 		    	bw.write(s.getKey() + "," + branchNameMap.get(s.getKey())+ ","+ branchSaleMap.get(s.getKey()));
 		    	bw.newLine();
 		    }
+
 		    File commdityOutFile = new File(args[0],"commodity.out");
 			combw = new BufferedWriter(new FileWriter(commdityOutFile));
 			List<Map.Entry<String,Long>> comentries =new ArrayList<Map.Entry<String,Long>>(commoditySaleMap.entrySet());
@@ -213,6 +211,5 @@ public class sale {
 				return;
 			}
 		}
-
 	}
 }
