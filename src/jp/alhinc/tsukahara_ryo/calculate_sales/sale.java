@@ -27,6 +27,7 @@ public class sale {
 		FileReader fr = null;
 		BufferedWriter bw = null;
 		BufferedWriter combw = null;
+
 		try{
 			File file = new File(args[0],"branch.lst");
 			fr = new FileReader(file);
@@ -59,8 +60,10 @@ public class sale {
 				System.out.println("予期せぬエラーが発生しました");
 			}
 		}
+
 		HashMap<String, String> commodityCodeMap = new HashMap<String, String>();
 		HashMap<String, Long> commoditySaleMap = new HashMap<String, Long>();
+
 		try{
 			File file = new File(args[0],"commodity.lst");
 			fr = new FileReader(file);
@@ -100,10 +103,14 @@ public class sale {
 		String files[] = file.list();
 		ArrayList<String> list = new ArrayList<String>();
 		for (String f: files){
+			File fileordr = new File(args[0], f);
 			if(f.matches("[0-9]{8}.rcd$")){
-				list.add(f);
+				if(fileordr.isFile()){
+					list.add(f);
+				}
+
 			}
-		//System.out.println(list.size());
+
 		}
 		Collections.sort(list);
 		for(int i=1;i<list.size();i++){
@@ -142,7 +149,7 @@ public class sale {
 				}
 				long rcdbranchMoney = Long.parseLong(rcdList.get(2));
 				rcdbranchMoney = branchSaleMap.get(rcdList.get(0)) + rcdbranchMoney;
-				if(rcdbranchMoney > 999999999){
+				if(rcdbranchMoney > 9999999999L){
 					System.out.println("合計金額が10桁を超えました");
 					return;
 				}
@@ -154,7 +161,7 @@ public class sale {
 				}
 				long rcdcommodityMoney = Long.parseLong(rcdList.get(2));
 				rcdcommodityMoney = commoditySaleMap.get(rcdList.get(1)) + rcdcommodityMoney;
-				if(rcdcommodityMoney > 999999999){
+				if(rcdcommodityMoney > 9999999999L){
 					System.out.println("合計金額が10桁を超えました");
 					return;
 				}
@@ -192,11 +199,10 @@ public class sale {
 	            combw.newLine();
 		    }
 		}catch(IOException s){
-			System.out.println("予期せぬエラーが発生しました。");
+			System.out.println("予期せぬエラーが発生しました");
 			return;
 		}finally{
 			try {
-
 				if(bw != null){
 					combw.close();
 					bw.close();
