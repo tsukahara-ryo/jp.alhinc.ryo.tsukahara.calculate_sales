@@ -138,6 +138,10 @@ public class sale {
 					System.out.println(fileName + "のフォーマットが不正です");
 					return;
 				}
+				if(!rcdList.get(2).matches("^\\d{1,10}$")){
+					System.out.println(fileName + "のフォーマットが不正です");
+					return;
+				}
 
 
 				if (!branchSaleMap.containsKey(rcdList.get(0))){
