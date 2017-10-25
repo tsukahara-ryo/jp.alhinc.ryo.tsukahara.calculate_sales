@@ -15,13 +15,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-public class sale {
-	public static boolean fileread(String path, String Name, String regex, String errermess,
+public class Sale {
+	public static boolean fileRead(String path, String name, String regex, String errermess,
 			HashMap<String, String> nameMap, HashMap<String, Long> saleMap){
 		BufferedReader br = null;
 		FileReader fr = null;
 		try{
-			File file = new File(path, Name+".lst");
+			File file = new File(path, name);
 			fr = new FileReader(file);
 			br = new BufferedReader(fr);
 			String s;
@@ -51,17 +51,18 @@ public class sale {
 				}
 			} catch (IOException e) {
 				System.out.println("予期せぬエラーが発生しました");
+				return false;
 			}
 		}
 		return true;
 
 	}
 
-	public static boolean fileout(HashMap<String, String> nameMap, HashMap<String, Long> saleMap,
+	public static boolean fileOut(HashMap<String, String> nameMap, HashMap<String, Long> saleMap,
 			String path, String Name){
 		BufferedWriter bw = null;
 		try{
-		    File outFile = new File(path, Name+".out");
+		    File outFile = new File(path, Name);
 			bw = new BufferedWriter(new FileWriter(outFile));
 			List<Map.Entry<String,Long>> comentries =new ArrayList<Map.Entry<String,Long>>(saleMap.entrySet());
 		    Collections.sort(comentries, new Comparator<Map.Entry<String,Long>>() {
@@ -76,7 +77,7 @@ public class sale {
 	            bw.newLine();
 		    }
 		}catch(IOException e){
-			System.out.println(Name + "定義ファイルが存在しません" );
+			System.out.println("予期せぬエラーが発生しました" );
 			return false;
 		}finally{
 			try {
@@ -102,10 +103,10 @@ public class sale {
 		HashMap<String, String> commodityCodeMap = new HashMap<String, String>();
 		HashMap<String, Long> commoditySaleMap = new HashMap<String, Long>();
 
-		if(fileread(args[0], "branch", "[0-9]{3}$", "支店", branchNameMap, branchSaleMap)){
+		if(fileRead(args[0], "branch.lst", "[0-9]{3}$", "支店", branchNameMap, branchSaleMap)){
 			return;
 		}
-		if(fileread(args[0], "commodity", "\\w{8}$", "商品", commodityCodeMap, commoditySaleMap)){
+		if(fileRead(args[0], "commodity.lst", "\\w{8}$", "商品", commodityCodeMap, commoditySaleMap)){
 			return;
 		}
 
@@ -163,13 +164,13 @@ public class sale {
 					System.out.println(fileName + "の支店コードが不正です");
 					return;
 				}
-				long rcdbranchMoney = Long.parseLong(rcdList.get(2));
-				rcdbranchMoney = branchSaleMap.get(rcdList.get(0)) + rcdbranchMoney;
-				if(rcdbranchMoney > 9999999999L){
+				long rcdBranchMoney = Long.parseLong(rcdList.get(2));
+				rcdBranchMoney = branchSaleMap.get(rcdList.get(0)) + rcdBranchMoney;
+				if(rcdBranchMoney > 9999999999L){
 					System.out.println("合計金額が10桁を超えました");
 					return;
 				}
-				branchSaleMap.put(rcdList.get(0),rcdbranchMoney);
+				branchSaleMap.put(rcdList.get(0),rcdBranchMoney);
 
 				if (!commoditySaleMap.containsKey(rcdList.get(1))){
 					System.out.println(fileName + "の商品コードが不正です");
@@ -187,10 +188,10 @@ public class sale {
 
 
 
-			if(!fileout(branchNameMap, branchSaleMap, args[0],"branch")){
+			if(fileOut(branchNameMap, branchSaleMap, args[0],"branch.out")){
 				return;
 			}
-			if(fileout(commodityCodeMap, commoditySaleMap, args[0],"commodity")){
+			if(fileOut(commodityCodeMap, commoditySaleMap, args[0],"commodity.out")){
 				return;
 			}
 
