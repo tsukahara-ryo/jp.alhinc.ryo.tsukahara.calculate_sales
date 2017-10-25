@@ -103,10 +103,10 @@ public class Sale {
 		HashMap<String, String> commodityCodeMap = new HashMap<String, String>();
 		HashMap<String, Long> commoditySaleMap = new HashMap<String, Long>();
 
-		if(fileRead(args[0], "branch.lst", "[0-9]{3}$", "支店", branchNameMap, branchSaleMap)){
+		if(!fileRead(args[0], "branch.lst", "[0-9]{3}$", "支店", branchNameMap, branchSaleMap)){
 			return;
 		}
-		if(fileRead(args[0], "commodity.lst", "\\w{8}$", "商品", commodityCodeMap, commoditySaleMap)){
+		if(!fileRead(args[0], "commodity.lst", "\\w{8}$", "商品", commodityCodeMap, commoditySaleMap)){
 			return;
 		}
 
@@ -188,10 +188,10 @@ public class Sale {
 
 
 
-			if(fileOut(branchNameMap, branchSaleMap, args[0],"branch.out")){
+			if(!fileOut(branchNameMap, branchSaleMap, args[0],"branch.out")){
 				return;
 			}
-			if(fileOut(commodityCodeMap, commoditySaleMap, args[0],"commodity.out")){
+			if(!fileOut(commodityCodeMap, commoditySaleMap, args[0],"commodity.out")){
 				return;
 			}
 
